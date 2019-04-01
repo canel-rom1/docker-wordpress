@@ -1,0 +1,85 @@
+version: '3.4'
+
+services:
+  site:
+    image: wordpress
+    depends_on:
+      - db
+    #restart: always
+    networks:
+      - lan
+      - wan
+    ports:
+      - "80:80"
+    volumes:
+      - ./site-storage:/var/www/html
+    environment:
+      JOOMLA_DB_HOST: "db"
+      JOOMLA_DB_NAME: "wordpress"
+      JOOMLA_DB_USER: "user"
+      JOOMLA_DB_PASSWORD: "dbpass"
+#    labels:
+#      - 'traefik.enable=true'
+#      - 'traefik.frontend.rule=Host:www.abcm.ch'
+#      - 'traefik.port=80'
+#      - 'traefik.docker.network=lan'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 0s
+
+  db:
+    image: mysql:5.6
+    #restart: always
+    networks:
+      - lan
+    volumes:
+      - ./db-storage:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "rootpass"
+      MYSQL_DATABASE: "wordpress"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "dbpass"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 0s
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    networks:
+      - lan
+    ports:
+      - "8088:80"
+    #restart: always
+    environment:
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "dbpass"
+      MYSQL_ROOT_PASSWORD: "rootpass"
+      PMA_HOST: db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 0s
+
+networks:
+  lan: 
+  wan:
+    external: True
+
+volumes:
+  db-storage:
+    driver: local
+  site-storage:
+    driver: local
+
+
+# vim: ft=yaml tw=80 et ts=2 sw=2 sts=2
