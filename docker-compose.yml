@@ -14,10 +14,10 @@ services:
     volumes:
       - ./site-storage:/var/www/html
     environment:
-      JOOMLA_DB_HOST: "db"
-      JOOMLA_DB_NAME: "wordpress"
-      JOOMLA_DB_USER: "user"
-      JOOMLA_DB_PASSWORD: "dbpass"
+      WORDPRESS_DB_HOST: "db"
+      WORDPRESS_DB_NAME: "wordpress"
+      WORDPRESS_DB_USER: "user"
+      WORDPRESS_DB_PASSWORD: "dbpass"
 #    labels:
 #      - 'traefik.enable=true'
 #      - 'traefik.frontend.rule=Host:www.abcm.ch'
@@ -73,7 +73,7 @@ services:
 networks:
   lan: 
   wan:
-    external: True
+    #external: True
 
 volumes:
   db-storage:
