@@ -20,7 +20,7 @@ services:
       WORDPRESS_DB_PASSWORD: "dbpass"
 #    labels:
 #      - 'traefik.enable=true'
-#      - 'traefik.frontend.rule=Host:www.abcm.ch'
+#      - 'traefik.frontend.rule=Host:www.domain.tld'
 #      - 'traefik.port=80'
 #      - 'traefik.docker.network=lan'
     healthcheck:
