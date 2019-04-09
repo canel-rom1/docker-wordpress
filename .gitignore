@@ -1,3 +1,4 @@
 db-storage
 plugin-storage
 site-storage
+*.tar.gz
