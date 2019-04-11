@@ -1,5 +1,6 @@
 db-storage
 plugin-storage
 site-storage
+*.sql
 *.swp
 *.tar.gz
