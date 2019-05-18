@@ -6,9 +6,8 @@ services:
     depends_on:
       - db
     #restart: always
-    networks:
-      - lan
-      - traefik_wan
+    ports:
+      - "80:80"
     volumes:
       - ./site-storage:/var/www/html
     environment:
@@ -16,11 +15,6 @@ services:
       WORDPRESS_DB_NAME: "wordpress"
       WORDPRESS_DB_USER: "user"
       WORDPRESS_DB_PASSWORD: "dbpass"
-    labels:
-      - 'traefik.enable=true'
-      - 'traefik.frontend.rule=Host:www.domain.tld'
-      - 'traefik.port=80'
-      - 'traefik.docker.network=traefik_wan'
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 1m
@@ -31,8 +25,6 @@ services:
   db:
     image: mysql:5.6
     #restart: always
-    networks:
-      - lan
     volumes:
       - ./db-storage:/var/lib/mysql
     environment:
@@ -52,8 +44,8 @@ services:
     depends_on:
       - db
     #restart: always
-    networks:
-      - lan
+    ports:
+      - "8080:80"
     environment:
       MYSQL_USER: "user"
       MYSQL_PASSWORD: "dbpass"
@@ -65,11 +57,6 @@ services:
       timeout: 30s
       retries: 3
       start_period: 0s
-
-networks:
-  lan: 
-  traefik_wan:
-    external: True
 
 
 # vim: ft=yaml tw=80 et ts=2 sw=2 sts=2
