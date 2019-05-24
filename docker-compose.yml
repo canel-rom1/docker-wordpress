@@ -33,6 +33,7 @@ services:
     #restart: always
     networks:
       - lan
+      - db-lan
     volumes:
       - ./db-storage:/var/lib/mysql
     environment:
@@ -47,27 +48,10 @@ services:
       retries: 3
       start_period: 0s
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    depends_on:
-      - db
-    #restart: always
-    networks:
-      - lan
-    environment:
-      MYSQL_USER: "user"
-      MYSQL_PASSWORD: "dbpass"
-      MYSQL_ROOT_PASSWORD: "rootpass"
-      PMA_HOST: db
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 1m
-      timeout: 30s
-      retries: 3
-      start_period: 0s
-
 networks:
   lan: 
+  db-lan: 
+    external: True
   traefik_wan:
     external: True
 
