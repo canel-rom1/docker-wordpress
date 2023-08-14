@@ -1,0 +1,4 @@
+DBROOTPASS=root_password
+DBNAME=wordpress
+DBUSER=user
+DBPASS=password

@@ -1,0 +1,25 @@
+---
+version: '3.9'
+
+services:
+  wp:
+    image: wordpress:latest
+    container_name: wp-projectname
+    ports:
+      - 80:80
+    environment:
+      WORDPRESS_DB_NAME: ${DBNAME:-wordpress}
+      WORDPRESS_DB_USER: ${DBUSER:-user}
+      WORDPRESS_DB_PASSWORD: ${DBPASS}
+
+  db:
+    image: mariadb:latest
+    container_name: wp-projectname-db
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DBROOTPASS}
+      MARIADB_DATABASE: ${DBNAME:-wordpress}
+      MARIADB_USER: ${DBUSER:-user}
+      MARIADB_PASSWORD: ${DBPASS}
+
+
+# vim: ft=yaml tw=80 et ts=2 sw=2 sts=2

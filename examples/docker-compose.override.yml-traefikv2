@@ -1,0 +1,29 @@
+---
+version: '3.9'
+
+services:
+  wp:
+    image: wordpress:latest
+    restart: always
+    networks:
+      - wan
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.http-wordpress.rule=Host(`www.domain.tld`)
+      - traefik.http.routers.http-wordpress.entryPoints=http
+      - traefik.http.routers.http-wordpress.middlewares=https-redirect@file
+      - traefik.http.routers.https-wordpress.tls=true
+      - traefik.http.routers.https-wordpress.tls.certresolver=letsencrypt
+      - traefik.http.routers.https-wordpress.entrypoints=https
+      - traefik.http.routers.https-wordpress.rule=Host(`www.domain.tld`)
+
+  db:
+    image: mariadb:latest
+    restart: always
+
+networks:
+  wan:
+    external: true
+
+
+# vim: ft=yaml tw=80 et ts=2 sw=2 sts=2

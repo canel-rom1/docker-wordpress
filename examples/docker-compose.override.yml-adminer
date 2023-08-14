@@ -1,0 +1,31 @@
+---
+version: '3.9'
+
+services:
+  wp:
+    image: wordpress:latest
+    restart: always
+    ports:
+      - 80:80
+
+  db:
+    image: mariadb:latest
+    restart: always
+
+  adminer:
+    image: adminer:latest
+    depends_on:
+      - db
+    networks:
+      - lan
+    ports:
+      - 8080:8080
+    healthcheck:
+      test: [CMD, curl, -f, http://localhost:8080]
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 0s
+
+
+# vim: ft=yaml tw=80 et ts=2 sw=2 sts=2

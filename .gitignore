@@ -1,6 +1,11 @@
+backup
 db-storage
 plugin-storage
 site-storage
+
+docker-compose.override.yml
+
+.env
 *.sql
 *.swp
 *.tar.gz
